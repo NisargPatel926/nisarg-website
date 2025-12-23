@@ -86,9 +86,7 @@ export default function Home() {
   const starCanvasRef = useRef<HTMLCanvasElement>(null);
   const [blogEntries, setBlogEntries] = useState(BLOG_ENTRIES);
   const [blogMode, setBlogMode] = useState<false | 'password' | 'entry'>(false);
-  const [blogPassword, setBlogPassword] = useState("");
   const [newBlog, setNewBlog] = useState({ title: '', content: '' });
-  const [blogSuccess, setBlogSuccess] = useState(false);
 
   // Animation state for rocket (bottom to top)
   const [rocketY, setRocketY] = useState(0); // Will be set in useEffect
@@ -181,7 +179,7 @@ export default function Home() {
       if (command === BLOG_ADMIN_PASSWORD) {
         setLines(prev => [
           ...prev,
-          <TerminalLine key={prev.length + 'blog-auth'} color={COLOR_ACCENT}>Password accepted. Enter blog title (or type 'cancel'):</TerminalLine>
+          <TerminalLine key={prev.length + 'blog-auth'} color={COLOR_ACCENT}>Password accepted. Enter blog title (or type &apos;cancel&apos;):</TerminalLine>
         ]);
         setBlogMode('entry');
         return;
@@ -196,7 +194,7 @@ export default function Home() {
       } else {
         setLines(prev => [
           ...prev,
-          <TerminalLine key={prev.length + 'blog-auth-fail'} color={COLOR_ACCENT}>Incorrect password. Type 'ideas' to try again.</TerminalLine>
+          <TerminalLine key={prev.length + 'blog-auth-fail'} color={COLOR_ACCENT}>Incorrect password. Type &apos;ideas&apos; to try again.</TerminalLine>
         ]);
         setBlogMode(false);
         return;
@@ -216,19 +214,17 @@ export default function Home() {
         setNewBlog({ ...newBlog, title: command });
         setLines(prev => [
           ...prev,
-          <TerminalLine key={prev.length + 'blog-title'} color={COLOR_ACCENT}>Title set. Enter blog content (or type 'cancel'):</TerminalLine>
+          <TerminalLine key={prev.length + 'blog-title'} color={COLOR_ACCENT}>Title set. Enter blog content (or type &apos;cancel&apos;):</TerminalLine>
         ]);
         return;
       } else {
         setBlogEntries(prev => [...prev, { title: newBlog.title, content: command }]);
         setLines(prev => [
           ...prev,
-          <TerminalLine key={prev.length + 'blog-added'} color={COLOR_ACCENT}>Blog entry added! Type 'ideas' to view.</TerminalLine>
+          <TerminalLine key={prev.length + 'blog-added'} color={COLOR_ACCENT}>Blog entry added! Type &apos;ideas&apos; to view.</TerminalLine>
         ]);
         setBlogMode(false);
         setNewBlog({ title: '', content: '' });
-        setBlogSuccess(true);
-        setTimeout(() => setBlogSuccess(false), 2000);
         return;
       }
     }
@@ -243,14 +239,14 @@ export default function Home() {
           <TerminalLine key={prev.length + 'blog-content-' + i}><span className="font-mono">{entry.content}</span></TerminalLine>,
           <TerminalLine key={prev.length + 'blog-split-' + i} color={COLOR_DIM}><span className="font-mono">{'='.repeat(40)}</span></TerminalLine>
         ]).flat(),
-        <TerminalLine key={prev.length + 'blog-edit'} color={COLOR_DIM}>Type 'ideas admin' to add a new entry (owner only).</TerminalLine>
+        <TerminalLine key={prev.length + 'blog-edit'} color={COLOR_DIM}>Type &apos;ideas admin&apos; to add a new entry (owner only).</TerminalLine>
       ]);
       return;
     }
     if (command.toLowerCase() === 'ideas admin') {
       setLines(prev => [
         ...prev,
-        <TerminalLine key={prev.length + 'blog-pw'} color={COLOR_ACCENT}>Enter admin password (or type 'cancel'):</TerminalLine>
+        <TerminalLine key={prev.length + 'blog-pw'} color={COLOR_ACCENT}>Enter admin password (or type &apos;cancel&apos;):</TerminalLine>
       ]);
       setBlogMode('password');
       return;
